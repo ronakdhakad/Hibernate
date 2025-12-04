@@ -1,3 +1,4 @@
+package com.hibernate.model;
 public class User{
 	private int uid;
 	private String name ,email, password, address;
