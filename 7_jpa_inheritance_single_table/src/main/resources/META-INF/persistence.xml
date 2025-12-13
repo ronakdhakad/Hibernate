@@ -1,0 +1,27 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+  https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+  version="3.0">
+  
+  
+  <persistence-unit name="mypunit" transaction-type="RESOURCE_LOCAL">
+  <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+  <class>com.jpa.entity.Vehical</class>
+  <class>com.jpa.entity.Car</class>
+  <class>com.jpa.entity.Truck</class>
+  
+  <properties>
+  <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"></property>
+  <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"></property>
+  <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hiber_7"></property>
+  <property name="jakarta.persistence.jdbc.username" value="root"></property>
+  <property name="jakarta.persistence.jdbc.password" value="root@123"></property>
+  <property name="hibernate.show_sql" value="true"></property>
+  <property name="hibernate.formate_sql" value="true"></property>
+  <property name="hibernate.hbm2ddl.auto" value="update"></property>
+  
+  </properties>
+  
+  </persistence-unit>
+  </persistence>
