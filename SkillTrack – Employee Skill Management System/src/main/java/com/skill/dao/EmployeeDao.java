@@ -18,8 +18,7 @@ public class EmployeeDao {
 
     public List<Employee> findAll() {
         EntityManager em = JPAUtil.getFactory().createEntityManager();
-        List<Employee> list = em.createQuery("from Employee e order by e.id", Employee.class)
-                .getResultList();
+        List<Employee> list = em.createQuery("from Employee e order by e.id", Employee.class).getResultList();
         em.close();
         return list;
     }

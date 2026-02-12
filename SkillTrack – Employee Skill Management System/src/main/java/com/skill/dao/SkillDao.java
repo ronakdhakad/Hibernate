@@ -8,14 +8,7 @@ import jakarta.persistence.EntityTransaction;
 import java.util.List;
 
 public class SkillDao {
-
-//    public void add(Skill s) {
-//        EntityManager em = JPAUtil.getFactory().createEntityManager();
-//        em.getTransaction().begin();
-//        em.persist(s);
-//        em.getTransaction().commit();
-//        em.close();
-//    }
+	
     public void add(Skill skill) {
         EntityManager em = JPAUtil.getFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();

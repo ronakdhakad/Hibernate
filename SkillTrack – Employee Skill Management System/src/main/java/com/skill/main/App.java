@@ -21,7 +21,7 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println("=========================================");
-        System.out.println("  SKILL MANAGEMENT SYSTEM  ");
+        System.out.println("======== SKILL MANAGEMENT SYSTEM ========  ");
         System.out.println("=========================================");
 
         int choice;
@@ -43,13 +43,12 @@ public class App {
                 case 9 : assignSkill();break;
                 case 10 : viewEmployeeSkills();break;
                 case 11 : reportTopSkills();break;
-//                case 12 : searchEmployeesBySkill();break;
-
+                
                 case 12: System.out.println(" Exiting...!");break;
                 default : System.out.println(" Invalid option. Try again.");
             }
 
-        } while (choice != 13);
+        } while (choice != 12);
 
         JPAUtil.shutdown();
     }
@@ -66,40 +65,39 @@ public class App {
         System.out.println("8.  Delete Skill");
         System.out.println("9.  Assign Skill to Employee");
         System.out.println("10. View Employee Skills");
-        System.out.println("11. Report: Top Skills");
-//        System.out.println("12. Search Employees by Skill Name");
-        System.out.println("12.  Exit");
+        System.out.println("11. Top Skills");
+        System.out.println("12. Exit");
         System.out.println("------------------------------------");
     }
 
     // --------- Employee ---------
     private static void addEmployee() {
-        System.out.println("\n[Add Employee]");
+        System.out.println("\n~~~~~~~~~~~ Add Employee ~~~~~~~~~~~");
 
-        String name = readNonEmpty("Enter Name (required): ");
-        String email = readNonEmpty("Enter Email (required): ");
-        String dept = readNonEmpty("Enter Department (required): ");
+        String name = readNonEmpty("Enter Name : ");
+        String email = readNonEmpty("Enter Email : ");
+        String dept = readNonEmpty("Enter Department : ");
 
         try {
             employeeDao.add(new Employee(name, email, dept));
             System.out.println(" Employee added successfully.");
         } catch (Exception e) {
-            System.out.println(" Failed (maybe duplicate email). Error: " + e.getMessage());
+            System.out.println(" Failed Error: " + e.getMessage());
         }
     }
 
     private static void viewEmployees() {
-        System.out.println("\n[Employee List]");
+        System.out.println("\n~~~~~~~~~~~ Employee List ~~~~~~~~~~~~");
         List<Employee> list = employeeDao.findAll();
         if (list.isEmpty()) {
-            System.out.println(" No employees found.");
+            System.out.println(" No employees found");
             return;
         }
         list.forEach(e -> System.out.println("• " + e));
     }
 
     private static void updateEmployee() {
-        System.out.println("\n[Update Employee]");
+        System.out.println("\n~~~~~~~~~~ Update Employee ~~~~~~~~~~");
         viewEmployees();
 
         long id = readLong("Enter Employee ID to update: ");
@@ -117,7 +115,7 @@ public class App {
     }
 
     private static void deleteEmployee() {
-        System.out.println("\n[Delete Employee]");
+        System.out.println("\n~~~~~~~~~~ Delete Employee ~~~~~~~~~~");
         viewEmployees();
 
         long id = readLong("Enter Employee ID to delete: ");
@@ -127,29 +125,29 @@ public class App {
 
     // --------- Skill ---------
     private static void addSkill() {
-        System.out.println("\n[Add Skill]");
+        System.out.println("\n ~~~~~~~~~~~~ Add Skill ~~~~~~~~~~~~~");
         String name = readNonEmpty("Enter Skill Name : ");
 
         try {
             skillDao.add(new Skill(name));
             System.out.println(" Skill added successfully.");
         } catch (Exception e) {
-            System.out.println(" Failed. Error: " + e.getMessage());
+            System.out.println(" Failed : " + e.getMessage());
         }
     }
 
     private static void viewSkills() {
-        System.out.println("\n[Skill List]");
+        System.out.println("\n~~~~~~~~~~~~ Skill List ~~~~~~~~~~~~~");
         List<Skill> list = skillDao.findAll();
         if (list.isEmpty()) {
             System.out.println(" No skills found.");
             return;
         }
-        list.forEach(s -> System.out.println("• " + s));
+        list.forEach(s -> System.out.println("* " + s));
     }
 
     private static void updateSkill() {
-        System.out.println("\n[Update Skill]");
+        System.out.println("\n~~~~~~~~~~~ Update Skill ~~~~~~~~~~~~");
         viewSkills();
 
         long id = readLong("Enter Skill ID to update: ");
@@ -157,24 +155,24 @@ public class App {
 
         try {
             boolean ok = skillDao.update(id, name);
-            System.out.println(ok ? " Skill updated." : " Skill not found.");
+            System.out.println(ok ? " Skill updated" : " Skill not found");
         } catch (Exception e) {
             System.out.println(" Update failed. Error: " + e.getMessage());
         }
     }
 
     private static void deleteSkill() {
-        System.out.println("\n[Delete Skill]");
+        System.out.println("\n~~~~~~~~~~~ Delete Skill ~~~~~~~~~~~~");
         viewSkills();
 
         long id = readLong("Enter Skill ID to delete: ");
         boolean ok = skillDao.delete(id);
-        System.out.println(ok ? " Skill deleted." : " Skill not found.");
+        System.out.println(ok ? " Skill deleted" : " Skill not found");
     }
 
 
     private static void assignSkill() {
-        System.out.println("\n[Assign Skill to Employee]");
+        System.out.println("\n~~~~~ Assign Skill to Employee ~~~~~~");
 
  
         viewEmployees();
@@ -189,19 +187,19 @@ public class App {
         long skillId = readLong("Enter Skill ID: ");
         Skill skill = skillDao.findById(skillId);
         if (skill == null) {
-            System.out.println(" Invalid Skill ID.");
+            System.out.println(" Invalid Skill ID");
             return;
         }
 
-        int prof = readIntRange("Enter Proficiency (1-10): ", 1, 10);
-        double years = readDoubleMin("Enter Years of Experience (>=0): ", 0);
+        int prof = readIntRange("Enter Rating... (1-10): ", 1, 10);
+        double years = readDoubleMin("Enter Years of Experience : ", 0);
 
         boolean ok = employeeSkillDao.assignOrUpdate(emp, skill, prof, years);
-        System.out.println(ok ? " Skill assigned/updated." : " Failed to assign.");
+        System.out.println(ok ? " Skill assigned." : " Failed to assign.");
     }
 
     private static void viewEmployeeSkills() {
-        System.out.println("\n[View Employee Skills]");
+        System.out.println("\n~~~~~~~ View Employee Skills ~~~~~~~~");
         viewEmployees();
 
         long empId = readLong("Enter Employee ID: ");
@@ -211,26 +209,14 @@ public class App {
             return;
         }
         for (EmployeeSkill es : list) {
-            System.out.println("• Skill: " + es.getSkill().getName()
-                    + " | Proficiency: " + es.getProficiency()
+            System.out.println("* Skill: " + es.getSkill().getName()
+                    + " | Rating: " + es.getProficiency()
                     + " | Years: " + es.getYears());
         }
     }
 
-//    private static void searchEmployeesBySkill() {
-//        System.out.println("\n[Search Employees by Skill Name]");
-//        String q = readNonEmpty("Enter skill name contains: ");
-//
-//        List<Employee> list = employeeSkillDao.searchEmployeesBySkillName(q);
-//        if (list.isEmpty()) {
-//            System.out.println(" No employees found for skill: " + q);
-//            return;
-//        }
-//        list.forEach(es-> System.out.println("• " + es));
-//    }
-
     private static void reportTopSkills() {
-        System.out.println("\n[Report: Top Skills]");
+        System.out.println("\n~~~~~~~ Report: Top Skills ~~~~~~~");
         List<Object[]> rows = employeeSkillDao.topSkills();
         if (rows.isEmpty()) {
             System.out.println(" No skill assignments found yet.");
